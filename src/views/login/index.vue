@@ -7,7 +7,11 @@
         <el-input v-model="form.username" placeholder="请输入帐号"></el-input>
       </el-form-item>
       <el-form-item label="密码">
-        <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
+        <el-input
+          type="password"
+          v-model="form.password"
+          placeholder="请输入密码"
+        ></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">登录</el-button>
@@ -18,20 +22,20 @@
 
 <script>
 export default {
-    data() {
-      return {
-        form: {
-         username:'',
-         password:''
-        }
+  data() {
+    return {
+      form: {
+        username: "",
+        password: ""
       }
-    },
-    methods: {
-      onSubmit() {
-        console.log('submit!');
-      }
+    };
+  },
+  methods: {
+    onSubmit() {
+      console.log("submit!");
     }
   }
+};
 </script>
 
 <style scoped>
