@@ -1,12 +1,18 @@
 <template>
   <div class="login-container">
     <!-- ref 相当于 id，:model 表单数据对象, label-width 表单域标签的的宽度 -->
-    <el-form ref="form" :model="form" label-width="80px" class="login-form">
+    <el-form
+      :rules="rules"
+      ref="form"
+      :model="form"
+      label-width="80px"
+      class="login-form"
+    >
       <h2 class="login-title">小刀会员管理系统</h2>
-      <el-form-item label="帐号">
+      <el-form-item label="帐号" prop="username">
         <el-input v-model="form.username" placeholder="请输入帐号"></el-input>
       </el-form-item>
-      <el-form-item label="密码">
+      <el-form-item label="密码" prop="password">
         <el-input
           type="password"
           v-model="form.password"
@@ -14,7 +20,7 @@
         ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">登录</el-button>
+        <el-button type="primary" @click="submitForm">登录</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -24,15 +30,27 @@
 export default {
   data() {
     return {
-      form: {
-        username: "",
-        password: ""
+      form: {},
+      rules: {
+        username: [
+          { required: true, message: "请输入有效账号", trigger: "blur" }
+        ],
+        password: [
+          { required: true, message: "请输入有效密码", trigger: "blur" }
+        ]
       }
     };
   },
   methods: {
-    onSubmit() {
-      console.log("submit!");
+    submitForm() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          alert("submit!");
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     }
   }
 };
