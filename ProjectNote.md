@@ -1,3 +1,10 @@
+# 常见的错误
+
+## 01登录功能
+
+登录验证	this.$refs.form.validate  中的 form 就是ref 就是表单ref 中的值相当于表单的Id
+
+```vue
 <template>
   <div class="login-container">
     <!-- ref 相当于 id，:model 表单数据对象, label-width 表单域标签的的宽度 -->
@@ -27,8 +34,6 @@
 </template>
 
 <script>
-import { login, getUserInfo } from "@/api/login";
-
 export default {
   data() {
     return {
@@ -47,34 +52,7 @@ export default {
     submitForm() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          login(this.form.username, this.form.password).then(response => {
-            const resp = response.data;
-            console.log(resp);
-            if (resp.flag) {
-              getUserInfo(resp.data.token).then(response => {
-                const respUser = response.data;
-                console.log(respUser);
-                if (respUser.flag) {
-                  localStorage.setItem(
-                    "msm-user",
-                    JSON.stringify(respUser.data)
-                  );
-                  localStorage.setItem("msm-token", resp.data.token);
-                  this.$router.push("/");
-                } else {
-                  this.$message({
-                    message: respUser.message,
-                    type: "warning"
-                  });
-                }
-              });
-            } else {
-              this.$message({
-                message: resp.message,
-                type: "warning"
-              });
-            }
-          });
+          alert("submit!");
         } else {
           console.log("error submit!!");
           return false;
@@ -109,3 +87,7 @@ export default {
   color: #303133;
 }
 </style>
+
+
+```
+
