@@ -1,5 +1,14 @@
 <template>
-  <div class="main">右侧主要区域</div>
+  <div class="main">
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item
+        class="line"
+        :to="{ path: '/' }"
+      >首页</el-breadcrumb-item>
+    </el-breadcrumb>
+    <!-- 子路由渲染出口 -->
+    <router-view></router-view>
+  </div>
 </template>
 <script>
 export default {};

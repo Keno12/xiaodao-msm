@@ -21,6 +21,7 @@ export default {
   }
 };
 </script>
+
 <style scoped>
 /* 头部区域 */
 .header {
@@ -51,6 +52,6 @@ export default {
   bottom: 0px;
   padding: 10px;
   overflow-y: auto;
-  background-color: red;
+  /* background-color: red; */
 }
 </style>
