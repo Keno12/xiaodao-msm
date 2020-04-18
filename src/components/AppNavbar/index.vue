@@ -1,7 +1,7 @@
 <template>
   <div class="navbar">
     <el-menu
-      :root="true"
+      :router="true"
       :default-active="$route.path"
       class="el-menu-vertical-demo"
       background-color="#545c64"
@@ -32,14 +32,10 @@
   </div>
 </template>
 <script>
-export default {
-
-};
+export default {};
 </script>
 <style scoped>
 .el-menu {
   border-right: none;
 }
 </style>
-
-

@@ -1,6 +1,6 @@
 # 常见的错误
 
-## 01登录功能
+## 01-登录功能
 
 登录验证	this.$refs.form.validate  中的 form 就是ref 就是表单ref 中的值相当于表单的Id
 
@@ -89,5 +89,22 @@ export default {
 </style>
 
 
+```
+
+## 02-菜单功能
+
+使用页面布局的时候左侧的菜单 menu 需要开启  :router="true" 起作用
+
+D:\github\VueLean\xiaodao-msm\src\components\AppNavbar\index.vue
+
+```vue
+<el-menu
+      :router="true"
+      :default-active="$route.path"
+      class="el-menu-vertical-demo"
+      background-color="#545c64"
+      text-color="#fff"
+      active-text-color="#ffd04b"
+    >
 ```
 

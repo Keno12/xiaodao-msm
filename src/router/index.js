@@ -3,12 +3,11 @@ import VueRouter from "vue-router";
 import Login from "../views/login";
 import Layout from "../components/Layout";
 
-import Home from "../views/home"
-import Member from "../views/member"
-import Supplier from "../views/supplier"
-import Goods from "../views/goods"
-import Staff from "../views/staff"
-
+import Home from "../views/home";
+import Member from "../views/member";
+import Supplier from "../views/supplier";
+import Goods from "../views/goods";
+import Staff from "../views/staff";
 
 Vue.use(VueRouter);
 
@@ -22,47 +21,51 @@ export default new VueRouter({
             path: "/",
             name: "layout",
             component: Layout,
-            redirect: '/home',
+            redirect: "/home",
             children: [{
-                path: '/home',
+                path: "/home",
                 component: Home,
-                meta: { title: '首页' }
+                meta: { title: "首页" }
             }]
-        }, {
+        },
+        {
             // 供应商管理
-            path: '/supplier',
+            path: "/supplier",
             component: Layout,
             children: [{
-                path: '/',
+                path: "/",
                 component: Supplier,
-                meta: { title: '供应商管理' }
+                meta: { title: "供应商管理" }
             }]
-        }, {
+        },
+        {
             // 会员管理
-            path: '/member',
+            path: "/member",
             component: Layout,
             children: [{
-                path: '/',
+                path: "/",
                 component: Member,
-                meta: { title: '会员管理' }
+                meta: { title: "会员管理" }
             }]
-        }, {
+        },
+        {
             // 商品管理
-            path: '/goods',
+            path: "/goods",
             component: Layout,
             children: [{
-                path: '/',
+                path: "/",
                 component: Goods,
-                meta: { title: '商品管理' }
+                meta: { title: "商品管理" }
             }]
-        }, {
+        },
+        {
             // 员工管理
-            path: '/staff',
+            path: "/staff",
             component: Layout,
             children: [{
-                path: '/',
+                path: "/",
                 component: Staff,
-                meta: { title: '员工管理' }
+                meta: { title: "员工管理" }
             }]
         }
     ]
