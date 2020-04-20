@@ -7,6 +7,7 @@ export default {
             method: "get"
         });
     },
+
     search(page, size, searchMap) {
         return request({
             url: `/member/list/search/${page}/${size}`,

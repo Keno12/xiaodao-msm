@@ -1,5 +1,61 @@
 <template>
   <div>
+    <!-- 条件查询。 inline 属性设置表单变为行内的表单域 -->
+    <el-form
+      ref="searchForm"
+      :inline="true"
+      :model="searchMap"
+      style="margin-top: 20px;"
+    >
+      <!-- 有prop才可以重置 -->
+      <el-form-item prop="cardNum">
+        <el-input
+          v-model="searchMap.cardNum"
+          placeholder="会员卡号"
+          style="width: 200px;"
+        ></el-input>
+      </el-form-item>
+      <el-form-item prop="name">
+        <el-input
+          v-model="searchMap.name"
+          placeholder="会员名称"
+          style="width: 200px;"
+        ></el-input>
+      </el-form-item>
+      <el-form-item prop="payType">
+        <el-select
+          v-model="searchMap.payType"
+          placeholder="支付类型"
+          style="width: 110px"
+        >
+          <!--key 标识， label 下拉显示的文本，vulue 表单值 -->
+          <el-option
+            v-for="option in payTypeOptions"
+            :key="option.type"
+            :label="option.name"
+            :value="option.type"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item prop="birthday">
+        <!-- value-format 是指定绑定值的格式 -->
+        <el-date-picker
+          value-format="yyyy-MM-dd"
+          v-model="searchMap.birthday"
+          type="date"
+          placeholder="出生日期"
+        ></el-date-picker>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          type="primary"
+          icon="el-icon-search"
+          @click="fetchData"
+        >查询</el-button>
+        <el-button @click="resetForm('searchForm')">重置</el-button>
+      </el-form-item>
+      </el-form-item>
+    </el-form>
     <el-table
       :data="list"
       height="380"
@@ -65,6 +121,18 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <!-- 分页，添加在div里面 -->
+    <el-pagination
+      @size-change="fetchData"
+      @current-change="fetchData"
+      :current-page="currentPage"
+      :page-sizes="[10, 20, 50]"
+      :page-size="pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total"
+    >
+    </el-pagination>
   </div>
 </template>
 
@@ -92,13 +160,32 @@ export default {
       list: [],
       total: 0,
       currentPage: 1,
-      searchMap: {}
+      pageSize: 10,
+      searchMap: {
+        // 条件查询绑定的条件值
+        cardNum: "",
+        name: "",
+        payType: "",
+        birthday: ""
+      },
+      payTypeOptions // 支付类型，ES6语法
     };
   },
   created() {
     this.fetchData();
   },
   methods: {
+    resetForm(formName) {
+    this.$refs[formName].resetFields();
+    },
+    handleSizeChange(val) {
+      this.pageSize = val;
+      this.fetchData();
+    },
+    handleCurrentChange(val) {
+      this.currentPage = val;
+      this.fetchData();
+    },
     handleEdit(id) {
       console.log("编辑");
     },
@@ -106,9 +193,14 @@ export default {
       console.log("删除");
     },
     fetchData() {
-      memberApi.search().then(respsonse => {
-        this.list = respsonse.data.data;
-      });
+      memberApi
+        .search(this.currentPage, this.pageSize, this.searchMap)
+        .then(response => {
+          const reqs = response.data;
+          this.total = reqs.data.total;
+          console.log(response);
+          this.list = reqs.data.rows;
+        });
     }
   }
 };
