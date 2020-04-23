@@ -52,8 +52,12 @@
           icon="el-icon-search"
           @click="fetchData"
         >查询</el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-edit"
+          @click="handleAdd"
+        >新增</el-button>
         <el-button @click="resetForm('searchForm')">重置</el-button>
-      </el-form-item>
       </el-form-item>
     </el-form>
     <el-table
@@ -133,6 +137,94 @@
       :total="total"
     >
     </el-pagination>
+    <el-dialog
+      title="会员编辑"
+      :visible.sync="dialogFormVisible"
+      width="500px"
+    >
+      <!-- status-icon 当表单校验不通过时, 输入框右侧有个 x 小图标 -->
+      <el-form
+        status-icon
+        ref="pojoForm"
+        :model="pojo"
+        label-width="100px"
+        label-position="right"
+        style="width: 400px;"
+      >
+        <el-form-item
+          label="会员卡号"
+          prop="cardNum"
+        >
+          <el-input v-model="pojo.cardNum" />
+        </el-form-item>
+        <el-form-item
+          label="会员姓名"
+          prop="name"
+        >
+          <el-input v-model="pojo.name" />
+        </el-form-item>
+        <el-form-item
+          label="会员生日"
+          prop="birthday"
+        >
+          <el-date-picker
+            v-model="pojo.birthday"
+            type="date"
+            placeholder="请点击选择"
+          />
+        </el-form-item>
+        <el-form-item
+          label="手机号码"
+          prop="phone"
+        >
+          <el-input v-model="pojo.phone" />
+        </el-form-item>
+        <el-form-item
+          label="开卡金额"
+          prop="money"
+        >
+          <el-input v-model="pojo.money" />
+        </el-form-item>
+        <el-form-item label="可用积分">
+          <el-input v-model="pojo.integral"></el-input>
+        </el-form-item>
+        <el-form-item
+          label="支付类型"
+          prop="payType"
+        >
+          <el-select
+            v-model="pojo.payType"
+            class="filter-item"
+            placeholder="请点击选择"
+          >
+            <el-option
+              v-for="option in payTypeOptions"
+              :key="option.type"
+              :label="option.name"
+              :value="option.type"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="会员地址">
+          <el-input
+            v-model="pojo.address"
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 4 }"
+            placeholder="请输入地址"
+          />
+        </el-form-item>
+      </el-form>
+      <div
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button
+          type="primary"
+          @click="addData('pojoForm')"
+        >确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -168,15 +260,43 @@ export default {
         payType: "",
         birthday: ""
       },
-      payTypeOptions // 支付类型，ES6语法
+      payTypeOptions, // 支付类型，ES6语法
+      pojo: {
+        cardNum: "",
+        name: "",
+        birthday: "",
+        phone: "",
+        money: 0,
+        integral: 0,
+        payType: "",
+        address: ""
+      }, // 提交的数据
+      dialogFormVisible: false // 控制新增对话框
     };
   },
   created() {
     this.fetchData();
   },
   methods: {
+    handleAdd() {
+      this.dialogFormVisible = true;
+      this.$nextTick(() => {
+        // this.$nextTick()它是一个异步事件，当渲染结束 之后 ，它的回调函数才会被执行
+        // 弹出窗口打开之后 ，需要加载Dom, 就需要花费一点时间，我们就应该等待它加载完dom之后，再进行调用resetFields方法，重置表单和清除样式
+        this.$refs["pojoForm"].resetFields();
+      });
+    },
+    addData(formName) {
+      this.refs[formName].validate(valid => {
+        if (valid) {
+          alert("add submit");
+        } else {
+          return false;
+        }
+      });
+    },
     resetForm(formName) {
-    this.$refs[formName].resetFields();
+      this.$refs[formName].resetFields();
     },
     handleSizeChange(val) {
       this.pageSize = val;
