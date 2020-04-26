@@ -47,81 +47,46 @@
         ></el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button
-          type="primary"
-          icon="el-icon-search"
-          @click="fetchData"
-        >查询</el-button>
-        <el-button
-          type="primary"
-          icon="el-icon-edit"
-          @click="handleAdd()"
-        >新增</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="fetchData"
+          >查询</el-button
+        >
+        <el-button type="primary" icon="el-icon-edit" @click="handleAdd()"
+          >新增</el-button
+        >
         <el-button @click="resetForm('searchForm')">重置</el-button>
       </el-form-item>
     </el-form>
-    <el-table
-      :data="list"
-      height="380"
-      border
-      style="width: 100%"
-    >
+    <el-table :data="list" height="380" border style="width: 100%">
       <!--type="index" 获取索引值，从1开始； label 显示的标题; prop 数据字段名； width 列的宽度 -->
-      <el-table-column
-        type="index"
-        label="序号"
-        width="60"
-      ></el-table-column>
-      <el-table-column
-        prop="cardNum"
-        label="会员卡号"
-      ></el-table-column>
-      <el-table-column
-        prop="name"
-        label="会员姓名"
-      ></el-table-column>
-      <el-table-column
-        prop="birthday"
-        label="会员生日"
-      ></el-table-column>
+      <el-table-column type="index" label="序号" width="60"></el-table-column>
+      <el-table-column prop="cardNum" label="会员卡号"></el-table-column>
+      <el-table-column prop="name" label="会员姓名"></el-table-column>
+      <el-table-column prop="birthday" label="会员生日"></el-table-column>
       <el-table-column
         prop="phone"
         label="手机号码"
         width="110"
       ></el-table-column>
-      <el-table-column
-        prop="integral"
-        label="可用积分"
-      ></el-table-column>
-      <el-table-column
-        prop="money"
-        label="开卡金额"
-      ></el-table-column>
-      <el-table-column
-        prop="payType"
-        label="支付类型"
-      ><template slot-scope="scope">
+      <el-table-column prop="integral" label="可用积分"></el-table-column>
+      <el-table-column prop="money" label="开卡金额"></el-table-column>
+      <el-table-column prop="payType" label="支付类型"
+        ><template slot-scope="scope">
           <span>{{ scope.row.payType | payTypeFilter }} </span>
-        </template></el-table-column>
+        </template></el-table-column
+      >
       <el-table-column
         prop="address"
         label="会员地址"
         width="180"
       ></el-table-column>
-      <el-table-column
-        label="操作"
-        width="150"
-      >
+      <el-table-column label="操作" width="150">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            @click="handleEdit(scope.row.id)"
-          >编辑</el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDele(scope.row.id)"
-          >删除</el-button>
+          <el-button size="mini" @click="handleEdit(scope.row.id)"
+            >编辑</el-button
+          >
+          <el-button size="mini" type="danger" @click="handleDele(scope.row.id)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -138,11 +103,7 @@
     >
     </el-pagination>
 
-    <el-dialog
-      title="会员编辑"
-      :visible.sync="dialogFormVisible"
-      width="500px"
-    >
+    <el-dialog title="会员编辑" :visible.sync="dialogFormVisible" width="500px">
       <!-- status-icon 当表单校验不通过时, 输入框右侧有个 x 小图标 -->
       <el-form
         :rules="rules"
@@ -153,47 +114,29 @@
         label-position="right"
         style="width: 400px;"
       >
-        <el-form-item
-          label="会员卡号"
-          prop="cardNum"
-        >
+        <el-form-item label="会员卡号" prop="cardNum">
           <el-input v-model="pojo.cardNum" />
         </el-form-item>
-        <el-form-item
-          label="会员姓名"
-          prop="name"
-        >
+        <el-form-item label="会员姓名" prop="name">
           <el-input v-model="pojo.name" />
         </el-form-item>
-        <el-form-item
-          label="会员生日"
-          prop="birthday"
-        >
+        <el-form-item label="会员生日" prop="birthday">
           <el-date-picker
             v-model="pojo.birthday"
             type="date"
             placeholder="请点击选择"
           />
         </el-form-item>
-        <el-form-item
-          label="手机号码"
-          prop="phone"
-        >
+        <el-form-item label="手机号码" prop="phone">
           <el-input v-model="pojo.phone" />
         </el-form-item>
-        <el-form-item
-          label="开卡金额"
-          prop="money"
-        >
+        <el-form-item label="开卡金额" prop="money">
           <el-input v-model="pojo.money" />
         </el-form-item>
         <el-form-item label="可用积分">
           <el-input v-model="pojo.integral"></el-input>
         </el-form-item>
-        <el-form-item
-          label="支付类型"
-          prop="payType"
-        >
+        <el-form-item label="支付类型" prop="payType">
           <el-select
             v-model="pojo.payType"
             class="filter-item"
@@ -216,15 +159,9 @@
           />
         </el-form-item>
       </el-form>
-      <div
-        slot="footer"
-        class="dialog-footer"
-      >
+      <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button
-          type="primary"
-          @click="addData('pojoForm')"
-        >确 定</el-button>
+        <el-button type="primary" @click="addData('pojoForm')">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -296,9 +233,9 @@ export default {
       });
     },
     addData(formName) {
-      this.refs[formName].validate(valid => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
-          memberApi.addData(this.pojo).then(response => {
+          memberApi.add(this.pojo).then(response => {
             const resp = response.data;
             console.log(resp);
             if (resp.flag) {
