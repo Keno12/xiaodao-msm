@@ -1,9 +1,6 @@
 <template>
   <el-breadcrumb separator-class="el-icon-arrow-right">
-    <el-breadcrumb-item
-      class="line"
-      :to="{ path: $route.path }"
-    >{{
+    <el-breadcrumb-item class="line" :to="{ path: $route.path }">{{
       $route.meta.title
     }}</el-breadcrumb-item>
   </el-breadcrumb>

@@ -2,11 +2,7 @@
   <div class="header">
     <!-- 头部左侧Logo和标题 -->
     <a href="#/">
-      <img
-        class="logo"
-        src="@/assets/logo.png"
-        width="25px"
-      />
+      <img class="logo" src="@/assets/logo.png" width="25px" />
       <span class="company">小刀管理系统</span>
     </a>
     <!-- 下拉菜单 -->

@@ -55,7 +55,7 @@
         <el-button
           type="primary"
           icon="el-icon-edit"
-          @click="handleAdd"
+          @click="handleAdd()"
         >新增</el-button>
         <el-button @click="resetForm('searchForm')">重置</el-button>
       </el-form-item>
@@ -137,6 +137,7 @@
       :total="total"
     >
     </el-pagination>
+
     <el-dialog
       title="会员编辑"
       :visible.sync="dialogFormVisible"
@@ -144,6 +145,7 @@
     >
       <!-- status-icon 当表单校验不通过时, 输入框右侧有个 x 小图标 -->
       <el-form
+        :rules="rules"
         status-icon
         ref="pojoForm"
         :model="pojo"
@@ -271,7 +273,14 @@ export default {
         payType: "",
         address: ""
       }, // 提交的数据
-      dialogFormVisible: false // 控制新增对话框
+      dialogFormVisible: false, // 控制新增对话框
+      rules: {
+        cardNum: [{ required: true, message: "卡号不能为空", trigger: "blur" }],
+        name: [{ required: true, message: "姓名不能为空", trigger: "blur" }],
+        payType: [
+          { required: true, message: "请选择支付类型", trigger: "change" }
+        ]
+      }
     };
   },
   created() {
@@ -289,7 +298,19 @@ export default {
     addData(formName) {
       this.refs[formName].validate(valid => {
         if (valid) {
-          alert("add submit");
+          memberApi.addData(this.pojo).then(response => {
+            const resp = response.data;
+            console.log(resp);
+            if (resp.flag) {
+              this.fetchData();
+              this.dialogFormVisible = false;
+            } else {
+              this.$message({
+                message: resp.message,
+                type: "warning"
+              });
+            }
+          });
         } else {
           return false;
         }
