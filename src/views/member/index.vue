@@ -56,6 +56,7 @@
         <el-button @click="resetForm('searchForm')">重置</el-button>
       </el-form-item>
     </el-form>
+    <!-- 列表 -->
     <el-table :data="list" height="380" border style="width: 100%">
       <!--type="index" 获取索引值，从1开始； label 显示的标题; prop 数据字段名； width 列的宽度 -->
       <el-table-column type="index" label="序号" width="60"></el-table-column>
