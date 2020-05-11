@@ -20,7 +20,7 @@
           style="width: 200px;"
         ></el-input>
       </el-form-item>
-      <el-form-item prop="supplierId">
+      <el-form-item prop="supplierName">
         <el-input
           v-model="searchMap.supplierName"
           placeholder="供应商"
@@ -216,17 +216,6 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
-    },
-    addData(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          // 验证通过，提交添加
-          alert("Add submit!");
-        } else {
-          // 验证不通过
-          return false;
-        }
-      });
     },
     handleAdd() {
       this.dialogFormVisible = true;
