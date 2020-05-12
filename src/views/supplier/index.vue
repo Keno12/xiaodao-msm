@@ -209,7 +209,13 @@ export default {
       this.fetchData();
     },
     handleEdit(id) {
-      console.log("编辑", id);
+      this.handleAdd();
+      supplierApi.getById(id).then(response => {
+        const resp = response.data;
+        if (resp.flag) {
+          this.pojo = resp.data;
+        }
+      });
     },
     handleDele(id) {
       console.log("删除", id);
@@ -242,6 +248,24 @@ export default {
           });
         } else {
           return false;
+        }
+      });
+    },
+    updateData(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          supplierApi.update(this.pojo).then(response => {
+            const resp = response.data;
+            if (resp.flag) {
+              this.fetchData();
+              this.dialogFormVisible = false;
+            } else {
+              this.$message({
+                message: resp.message,
+                type: "warning"
+              });
+            }
+          });
         }
       });
     }

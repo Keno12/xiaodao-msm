@@ -21,5 +21,18 @@ export default {
             method: "post",
             data: pojo
         });
+    },
+    getById(id) {
+        return request({
+            url: `/supplier/${id}`, // 反单引号 ``
+            method: "get"
+        });
+    },
+    update(pojo) {
+        return request({
+            url: `/supplier/${pojo.id}`,
+            method: "put",
+            data: pojo
+        });
     }
 };
