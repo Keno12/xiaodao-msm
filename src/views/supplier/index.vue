@@ -28,61 +28,29 @@
         ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button
-          type="primary"
-          icon="el-icon-search"
-        >查询</el-button>
-        <el-button
-          type="primary"
-          icon="el-icon-edit"
-          @click="handleAdd"
-        >新增</el-button>
+        <el-button type="primary" icon="el-icon-search">查询</el-button>
+        <el-button type="primary" icon="el-icon-edit" @click="handleAdd"
+          >新增</el-button
+        >
         <el-button @click="resetForm('searchForm')">重置</el-button>
       </el-form-item>
     </el-form>
     <!-- 列表 -->
-    <el-table
-      :data="list"
-      height="380"
-      border
-      style="width: 100%"
-    >
+    <el-table :data="list" height="380" border style="width: 100%">
       <!--type="index" 获取索引值，从1开始； label 显示的标题; prop 数据字段名； width 列的宽度 -->
-      <el-table-column
-        type="index"
-        label="序号"
-        width="60"
-      ></el-table-column>
-      <el-table-column
-        prop="name"
-        label="供应商名称"
-      ></el-table-column>
-      <el-table-column
-        prop="linkman"
-        label="联系人"
-      ></el-table-column>
-      <el-table-column
-        prop="mobile"
-        label="联系电话"
-      ></el-table-column>
-      <el-table-column
-        prop="remark"
-        label="备注"
-      ></el-table-column>
-      <el-table-column
-        label="操作"
-        width="150"
-      >
+      <el-table-column type="index" label="序号" width="60"></el-table-column>
+      <el-table-column prop="name" label="供应商名称"></el-table-column>
+      <el-table-column prop="linkman" label="联系人"></el-table-column>
+      <el-table-column prop="mobile" label="联系电话"></el-table-column>
+      <el-table-column prop="remark" label="备注"></el-table-column>
+      <el-table-column label="操作" width="150">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            @click="handleEdit(scope.row.id)"
-          >编辑</el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDele(scope.row.id)"
-          >删除</el-button>
+          <el-button size="mini" @click="handleEdit(scope.row.id)"
+            >编辑</el-button
+          >
+          <el-button size="mini" type="danger" @click="handleDele(scope.row.id)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -112,24 +80,15 @@
         label-position="right"
         style="width: 400px;"
       >
-        <el-form-item
-          label="供应商名"
-          prop="name"
-        >
+        <el-form-item label="供应商名" prop="name">
           <el-input v-model="pojo.name" />
         </el-form-item>
 
-        <el-form-item
-          label="联系电话"
-          prop="mobile"
-        >
+        <el-form-item label="联系电话" prop="mobile">
           <el-input v-model="pojo.mobile" />
         </el-form-item>
 
-        <el-form-item
-          label="备注"
-          prop="remark"
-        >
+        <el-form-item label="备注" prop="remark">
           <el-input
             v-model="pojo.remark"
             type="textarea"
@@ -138,17 +97,15 @@
           />
         </el-form-item>
       </el-form>
-      <div
-        slot="footer"
-        class="dialog-footer"
-      >
+      <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button
           type="primary"
           @click="
             pojo.id === null ? addData('pojoForm') : updateData('pojoForm')
           "
-        >确 定</el-button>
+          >确 定</el-button
+        >
       </div>
     </el-dialog>
   </div>
@@ -219,6 +176,29 @@ export default {
     },
     handleDele(id) {
       console.log("删除", id);
+      this.$confirm("确认删除这条记录吗？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          // 确认
+          supplierApi.deleteById(id).then(response => {
+            const resp = response.data;
+            //提示信息
+            this.$message({
+              type: resp.flag ? "success" : "error",
+              message: resp.message
+            });
+            if (resp.flag) {
+              // 删除成功，刷新列表
+              this.fetchData();
+            }
+          });
+        })
+        .catch(() => {
+          // 取消删除，不理会
+        });
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
