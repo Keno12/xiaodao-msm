@@ -6,44 +6,44 @@
       :model="searchMap"
       style="margin-top: 20px;"
     >
-      <el-form-item prop="name">
-        <el-input
+    <el-form-item prop="name">
+        <el-input v-if="!isDialog"
           v-model="searchMap.name"
-          placeholder="商品名称"
+          placeholder="供应商名称"
+          style="width: 200px;"
+        ></el-input>
+      </el-form-item>
+      <el-form-item prop="linkname">
+        <el-input v-if="!isDialog"
+          v-model="searchMap.linkman"
+          placeholder="联系人"
           style="width: 200px;"
         ></el-input>
       </el-form-item>
       <el-form-item prop="code">
-        <el-input
-          v-model="searchMap.code"
-          placeholder="商品编号"
-          style="width: 200px;"
-        ></el-input>
-      </el-form-item>
-      <el-form-item prop="supplierName">
-        <el-input
-          v-model="searchMap.supplierName"
-          placeholder="供应商"
+        <el-input v-if="!isDialog"
+          v-model="searchMap.mobile"
+          placeholder="联系电话"
           style="width: 200px;"
         ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search">查询</el-button>
-        <el-button type="primary" icon="el-icon-edit" @click="handleAdd"
+        <el-button v-if="!isDialog" type="primary" icon="el-icon-search">查询</el-button>
+        <el-button v-if="!isDialog" type="primary" icon="el-icon-edit" @click="handleAdd"
           >新增</el-button
         >
         <el-button @click="resetForm('searchForm')">重置</el-button>
       </el-form-item>
     </el-form>
     <!-- 列表 -->
-    <el-table :data="list" height="380" border style="width: 100%">
+    <el-table :highlight-current-row="isDialog" @current-change="clickCurrentChange" :data="list" height="380" border style="width: 100%">
       <!--type="index" 获取索引值，从1开始； label 显示的标题; prop 数据字段名； width 列的宽度 -->
       <el-table-column type="index" label="序号" width="60"></el-table-column>
       <el-table-column prop="name" label="供应商名称"></el-table-column>
       <el-table-column prop="linkman" label="联系人"></el-table-column>
-      <el-table-column prop="mobile" label="联系电话"></el-table-column>
-      <el-table-column prop="remark" label="备注"></el-table-column>
-      <el-table-column label="操作" width="150">
+      <el-table-column v-if="!isDialog" prop="mobile" label="联系电话"></el-table-column>
+      <el-table-column v-if="!isDialog" prop="remark" label="备注"></el-table-column>
+      <el-table-column v-if="!isDialog" label="操作" width="150">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.row.id)"
             >编辑</el-button
@@ -61,11 +61,11 @@
       :current-page="currentPage"
       :page-sizes="[10, 20, 50]"
       :page-size="pageSize"
-      layout="total, sizes, prev, pager, next, jumper"
+      layout="!isDlalog?' total, sizes, prev, pager, next, jumper': prev, pager, next"
       :total="total"
     ></el-pagination>
 
-    <el-dialog
+    <el-dialog v-if="!isDialog"
       title="供应商编辑"
       :visible.sync="dialogFormVisible"
       width="500px"
@@ -114,6 +114,7 @@
 <script>
 import supplierApi from "@/api/supplier";
 export default {
+  props: { isDialog: Boolean },
   data() {
     return {
       list: [],
@@ -147,6 +148,10 @@ export default {
     this.fetchData();
   },
   methods: {
+    clickCurrentChange(currentRow){
+      console.log(currentRow)
+      this.$emit('option-supplier',currentRow)
+    },    
     fetchData() {
       supplierApi
         .search(this.currentPage, this.pageSize, this.searchMap)
